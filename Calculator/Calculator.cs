@@ -22,7 +22,7 @@ namespace Calculator
 
         private HashSet<char> operators = new HashSet<char>() // Set of supported operators
         {
-            '+', '-', '×', '÷', '.'
+            '+', '-', '×', '÷'
         };
 
         public Calculator()
@@ -56,6 +56,16 @@ namespace Calculator
                     }
                 }
             }
+            if (button.Text[0] == '.')
+            {
+                if (inputTextBox.Text.Length > 0)
+                {
+                    if (isLastCharOP())
+                    {
+                        calculation = calculation.Remove(calculation.Length - 1, 1);
+                    }
+                }
+            }
             calculation += (button).Text;
             inputTextBox.Text = calculation;
         }
@@ -79,7 +89,11 @@ namespace Calculator
                 }
                 if (calculation.Length > 1)
                 {
-                    if (operators.Contains(calculation[calculation.Length - 2]))
+                    if (calculation[calculation.Length-2] == '(')
+                    {
+                        calculation = calculation.Remove(calculation.Length - 1, 1);
+                    }
+                    else if (operators.Contains(calculation[calculation.Length - 2]))
                     {
                         calculation = calculation.Remove(calculation.Length - 1, 1);
                     }
@@ -136,12 +150,9 @@ namespace Calculator
 
             try
             {
-                double result = Convert.ToDouble(new DataTable().Compute(formattedCalculation, null)); // Compute the result of user input
-                string roundedResult = Math.Round(result, 4).ToString(); // Limit result to 4 decimal places
+                double roundedResult = Math.Round(Convert.ToDouble(new DataTable().Compute(formattedCalculation, null)), 4); // Round to 4th decimal places
+                inputTextBox.Text = resultTextBox.Text = calculation = (roundedResult > 0) ? $"{roundedResult}" : $"({roundedResult})";
 
-                inputTextBox.Text = roundedResult;
-                resultTextBox.Text = calculation;
-                calculation = roundedResult;
             }
             catch (Exception ex)
             {
@@ -151,11 +162,11 @@ namespace Calculator
 
                 if (ex is OverflowException)
                 {
-                    errorMessage = "The answer is too large.";
+                    errorMessage = "TOO LARGE";
                 }
                 else
                 {
-                    errorMessage = "An error occurred during the calculation.";
+                    errorMessage = "ERROR";
                 }
 
                 resultTextBox.Text = errorMessage;
