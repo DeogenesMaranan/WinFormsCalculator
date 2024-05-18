@@ -1,5 +1,17 @@
-# Calculator
-> Laboratory Activity for Advance Object Oriented Programming(AOOP)
+<p align="center">
+  <img src="images/logo.png"  alt="LOGO" />
+</p>
+<p align="center">
+    <h1 align="center">Calculator</h1>
+</p>
+<p align="center">
+    <em><code>Laboratory Activity for Advance Object Oriented Programming (AOOP)</code></em>
+</p>
+<p align="center">
+	<img src="https://img.shields.io/github/last-commit/DeogenesMaranan/WinFormsCalculator?style=flat&logo=git&logoColor=white&color=0080ff" alt="last-commit">
+	<img src="https://img.shields.io/github/languages/top/DeogenesMaranan/WinFormsCalculator?style=flat&color=0080ff" alt="repo-top-language">
+	<img src="https://img.shields.io/github/languages/count/DeogenesMaranan/WinFormsCalculator?style=flat&color=0080ff" alt="repo-language-count">
+</p>
 
 ## Sample Output
 
@@ -13,4 +25,10 @@
     <img src="images/output%20(7).png" alt="Image 7" style="width: 175px; height: auto;">
 </div>
 
+## Requirements
+- Visual Studio 2022
+- .NET Desktop Development
 
+## Running the application
+1. Open the Calculator.sln in Visual Studio
+2. Run and build the application in "Release" mode
