@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="images/logo.png"  alt="LOGO" />
+  <img src="images/logo.png"  alt="LOGO" style="width: 100px;/>
 </p>
 <p align="center">
     <h1 align="center">Calculator</h1>
