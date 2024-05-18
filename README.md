@@ -22,7 +22,8 @@
     <img src="images/output%20(4).png" alt="Image 4" style="width: 175px; height: auto; margin-right: 10px;">
     <img src="images/output%20(5).png" alt="Image 5" style="width: 175px; height: auto; margin-right: 10px;">
     <img src="images/output%20(6).png" alt="Image 6" style="width: 175px; height: auto; margin-right: 10px;">
-    <img src="images/output%20(7).png" alt="Image 7" style="width: 175px; height: auto; margin-right: 10px;">	
+    <img src="images/output%20(7).png" alt="Image 7" style="width: 175px; height: auto; margin-right: 10px;">
+    <img src="images/output%20(8).png" alt="Image 8" style="width: 175px; height: auto; margin-right: 10px;">	
 </div>
 
 <a href="https://youtu.be/_WDYciv4Z4E">Watch Video Demo HERE</a>
