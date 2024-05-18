@@ -151,7 +151,9 @@ namespace Calculator
             try
             {
                 double roundedResult = Math.Round(Convert.ToDouble(new DataTable().Compute(formattedCalculation, null)), 4); // Round to 4th decimal places
-                inputTextBox.Text = resultTextBox.Text = calculation = (roundedResult > 0) ? $"{roundedResult}" : $"({roundedResult})";
+                inputTextBox.Text = (roundedResult > 0) ? $"{roundedResult}" : $"({roundedResult})";
+                resultTextBox.Text = calculation;
+                calculation = inputTextBox.Text;
 
             }
             catch (Exception ex)
