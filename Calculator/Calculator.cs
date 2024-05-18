@@ -9,8 +9,9 @@ namespace Calculator
 {
     public partial class Calculator : Form
     {
-        private string calculation = "";
+        private string calculation = ""; // Holds the current calculation expression
 
+        // Allows dragging the window
         [DllImport("user32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
         [DllImport("user32.dll")]
@@ -19,7 +20,7 @@ namespace Calculator
         const int WM_NCLBUTTONDOWN = 0xA1;
         const int HT_CAPTION = 0x2;
 
-        private HashSet<char> operators = new HashSet<char>()
+        private HashSet<char> operators = new HashSet<char>() // Set of supported operators
         {
             '+', '-', '×', '÷', '.'
         };
@@ -29,16 +30,19 @@ namespace Calculator
             InitializeComponent();
         }
 
+        // Close button click event
         private void close(object sender, EventArgs e)
         {
             Close();
         }
 
+        // Minimize button click event
         private void minimize(object sender, EventArgs e)
         {
             WindowState = FormWindowState.Minimized;
         }
 
+        // Handle button clicks to capture user input
         private void button_Click(object sender, EventArgs e)
         {
             Button button = (Button)sender;
@@ -55,6 +59,8 @@ namespace Calculator
             calculation += (button).Text;
             inputTextBox.Text = calculation;
         }
+
+        // Clear all button click event
         private void clearBtn_Click(object sender, EventArgs e)
         {
             inputTextBox.Text = "";
@@ -62,11 +68,12 @@ namespace Calculator
             calculation = "";
         }
 
+        // Clear most recent operand button click event
         private void clearEntryBtn_click(object sender, EventArgs e)
         {
-            if(calculation.Length > 0)
+            if (calculation.Length > 0) // Ensure calculation string is not empty
             {
-                while (calculation.Length > 0 && !operators.Contains(calculation[calculation.Length - 1]))
+                while (calculation.Length > 0 && !operators.Contains(calculation[calculation.Length - 1])) // Remove operand until the last operator
                 {
                     calculation = calculation.Remove(calculation.Length - 1, 1);
                 }
@@ -82,30 +89,32 @@ namespace Calculator
             }
         }
 
-
+        // Backspace button click event
         private void delBtn_Click(object sender, EventArgs e)
         {
             if (calculation.Length > 0)
             {
-                calculation = calculation.Remove(calculation.Length - 1, 1);
+                calculation = calculation.Remove(calculation.Length - 1, 1); // Remove the last character
             }
             inputTextBox.Text = calculation;
         }
 
+        // Toggle sign of operand button click event
         private void signBtn_Click(object sender, EventArgs e)
         {
             var temp = new StringBuilder();
             while (calculation.Length > 0 && !operators.Contains(calculation[calculation.Length - 1]))
             {
-                temp.Insert(0, calculation[calculation.Length - 1]);
-                calculation = calculation.Remove(calculation.Length - 1, 1);
+                temp.Insert(0, calculation[calculation.Length - 1]); // Temporarily hold the operand
+                calculation = calculation.Remove(calculation.Length - 1, 1); // Remove operand
             }
-            if (calculation.Length > 1 && temp[temp.Length - 1] == ')'){
+            if (calculation.Length > 1 && temp[temp.Length - 1] == ')')
+            { // Check if operand is negative
                 calculation = calculation.Remove(calculation.Length - 1, 1);
                 calculation = calculation.Remove(calculation.Length - 1, 1);
-                temp = temp.Replace(")(-", "");
+                temp = temp.Replace(")(-", ""); // Remove negative sign
                 temp = temp.Remove(temp.Length - 1, 1);
-                calculation += temp;
+                calculation += temp; // Bring back the operand to the calculation
             }
             else
             {
@@ -115,12 +124,11 @@ namespace Calculator
             inputTextBox.Text = calculation;
         }
 
-
-
+        // Calculate the result button click event
         private void equalBtn_Click(object sender, EventArgs e)
         {
-            string formattedCalculation = calculation.ToString().Replace("×", "*").ToString().Replace("÷", "/");
-            if (operators.Contains(formattedCalculation[formattedCalculation.Length - 1]))
+            string formattedCalculation = calculation.ToString().Replace("×", "*").ToString().Replace("÷", "/"); // Format for Compute method
+            if (operators.Contains(formattedCalculation[formattedCalculation.Length - 1])) // Avoid error if the last character is an operand
             {
                 formattedCalculation = formattedCalculation.Remove(calculation.Length - 1, 1);
                 calculation = calculation.Remove(calculation.Length - 1, 1);
@@ -128,8 +136,8 @@ namespace Calculator
 
             try
             {
-                double result = Convert.ToDouble(new DataTable().Compute(formattedCalculation, null));
-                string roundedResult = Math.Round(result, 4).ToString();
+                double result = Convert.ToDouble(new DataTable().Compute(formattedCalculation, null)); // Compute the result of user input
+                string roundedResult = Math.Round(result, 4).ToString(); // Limit result to 4 decimal places
 
                 inputTextBox.Text = roundedResult;
                 resultTextBox.Text = calculation;
@@ -143,22 +151,24 @@ namespace Calculator
 
                 if (ex is OverflowException)
                 {
-                    errorMessage = "TOO LARGE.";
+                    errorMessage = "The answer is too large.";
                 }
                 else
                 {
-                    errorMessage = "ERROR";
+                    errorMessage = "An error occurred during the calculation.";
                 }
 
                 resultTextBox.Text = errorMessage;
             }
         }
 
+        // Handle changes in input text box
         private void inputTextBox_Changes(object sender, EventArgs e)
         {
-            signBtn.Enabled = !isLastCharOP();
+            signBtn.Enabled = !isLastCharOP(); // Enable/disable sign button based on the last character
         }
 
+        // Check if the last character in the input text box is an operator
         private bool isLastCharOP()
         {
             if (inputTextBox.Text.Length > 0)
@@ -174,11 +184,11 @@ namespace Calculator
             }
             else
             {
-                return true;
+                return true; // If text box is empty, sign button should be enabled
             }
         }
 
-
+        // Mouse down event to allow dragging the window
         private void Calculator_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
